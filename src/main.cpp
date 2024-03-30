@@ -27,7 +27,7 @@
 // Music player settings
 #define TRACK_NUMBER_FOR_SENSOR_MODE 1 // In sensor mode you don't get to select track, use this one
 #define MAX_TRACK_NUMBER 5
-#define VOLUME 10 // Up to 30
+#define VOLUME 30 // Up to 30
 #define MP3_PLAYER_BAUD_RATE 9600
 
 
@@ -65,7 +65,7 @@ void lightSleep(int timeMs);
 
 
 // Variable defs
-int trackNumber = 2;
+int trackNumber = 1;
 bool sensorMode = false;
 double lastSensorLightLevel = 0;
 
