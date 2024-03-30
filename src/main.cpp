@@ -105,7 +105,7 @@ void setup() {
   // normal mode where a button press triggers it.
   if (isButtonPushed()) {
     // Button held in on startup, so going into sensor mode.
-    // Wait for button to be unpushed, then wait 5 seconds for the user to move away
+    // Wait for button to be unpushed, then the indicateReady() sequence will give time for the user to move away
     sensorMode = true;
     trackNumber = TRACK_NUMBER_FOR_SENSOR_MODE;
     while (isButtonPushed());
@@ -151,7 +151,7 @@ void loop() {
   lightSleep(50);
 }
 
-// Indicates the program is ready by flashing the LED. 10 flashes for sensor mode, 1 in normal mode
+// Indicates the program is ready by flashing the LED. 10 flashes for sensor mode, or in normal mode, flash to indicate the track number that will play.
 void indicateReady() {
   flashLED(sensorMode ? 10 : trackNumber);
 }
