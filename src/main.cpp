@@ -280,12 +280,15 @@ void lipsyncAllAboutThatBass() {
     mouthClose();
     lightSleep(150);
   }
-  tailOut();
-  mouthOpen(); // basses
-  lightSleep(150);
-  mouthClose();
-  lightSleep(150);
-  headTailRest();
+  for (int i = 0; i < 2; i++) { // basses
+    tailOut();
+    mouthOpen();
+    lightSleep(150);
+    mouthClose();
+    lightSleep(150);
+    headTailRest();
+  }
+    lightSleep(500);
 }
 
 // Lip-sync function, operating the motors in time to music. The music is already playing at
