@@ -26,7 +26,7 @@
 
 // Music player settings
 #define TRACK_NUMBER_FOR_SENSOR_MODE 1 // In sensor mode you don't get to select track, use this one
-#define MAX_TRACK_NUMBER 5
+#define MAX_TRACK_NUMBER 6
 #define VOLUME 30 // Up to 30
 #define MP3_PLAYER_BAUD_RATE 9600
 
@@ -45,6 +45,7 @@ void lipsyncAllAboutThatBass();
 void lipsyncMrScruffFish();
 void lipsyncChopSuey();
 void lipsyncSmellsLikeTeenSpirit();
+void lipsyncKillingInTheName();
 void playTrack(int tracknum);
 void flapHeadFor(int runtime, int interval);
 void flapTailFor(int runtime, int interval);
@@ -200,6 +201,9 @@ void trigger() {
     case 5:
       lipsyncSmellsLikeTeenSpirit();
       break;
+    case 6:
+      lipsyncKillingInTheName();
+      break;
   }
 
   // Stop once complete
@@ -309,6 +313,13 @@ void lipsyncChopSuey() {
 // this point so we just have to move motors accordingly. This version of the function is for:
 // Nirvana - Smells Like Teen Spirit (track number 5)
 void lipsyncSmellsLikeTeenSpirit() {
+  // @todo
+}
+
+// Lip-sync function, operating the motors in time to music. The music is already playing at
+// this point so we just have to move motors accordingly. This version of the function is for:
+// Rage Against the Machine - Killing in the Name (track number 6)
+void lipsyncKillingInTheName() {
   // @todo
 }
 
