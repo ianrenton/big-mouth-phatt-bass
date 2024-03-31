@@ -18,7 +18,7 @@ The following songs are supported. I *think* the MP3s are "fair use" to share as
 
 1. Warp Brothers - Phatt Bass
 2. Meghan Trainor - All About that Bass
-3. Mr Scruff - Fish
-4. System of a Down - Chop Suey
-5. Nirvana - Smells Like Teen Spirit
-6. Rage Against the Machine - Killing in the Name
+3. Mr Scruff - Fish (Work in Progress)
+4. System of a Down - Chop Suey (Work in Progress)
+5. Nirvana - Smells Like Teen Spirit (Work in Progress)
+6. Rage Against the Machine - Killing in the Name (Work in Progress)
