@@ -306,7 +306,74 @@ void lipsyncMrScruffFish() {
 // this point so we just have to move motors accordingly. This version of the function is for:
 // System of a Down - Chop Suey (track number 4)
 void lipsyncChopSuey() {
-  // @todo
+  headOut();
+  mouthOpenFor(300); // Wake up
+  headTailRest();
+  lightSleep(100);
+  mouthOpenFor(300); // *whisper* Wake up
+  lightSleep(100);
+  headOut();
+  mouthOpenFor(1500); // Grab a brush and put a little make-up
+  headTailRest();
+  lightSleep(600);
+  headOut();
+  mouthOpenFor(1320); // Hide the scars to fade away the shake-up
+  headTailRest();
+  lightSleep(50);
+  mouthOpenFor(500); // *whisper* Hide the scars to fade away the
+  lightSleep(50);
+  headOut();
+  mouthOpenFor(1320); // Why'd you leave the keys upon the table?
+  headTailRest();
+  lightSleep(550);
+  headOut();
+  mouthOpenFor(1320); // Here you go create another fable
+  headTailRest();
+  lightSleep(50);
+  mouthOpenFor(500); // You wanted to
+  lightSleep(50);
+  headOut();
+  mouthOpenFor(1250); // Grab a brush and put a little make-up
+  headTailRest();
+  lightSleep(50);
+  mouthOpenFor(500); // You wanted to
+  lightSleep(50);
+  headOut();
+  mouthOpenFor(1320); // Hide the scars to fade away the shake-up
+  headTailRest();
+  lightSleep(50);
+  mouthOpenFor(500); // You wanted to
+  lightSleep(50);
+  headOut();
+  mouthOpenFor(1320); // Why'd you leave the keys upon the table?
+  headTailRest();
+  lightSleep(50);
+  mouthOpenFor(500); // You wanted to
+  lightSleep(50);
+  mouthOpenFor(1500); // I don't think you trust
+  lightSleep(1500);
+  mouthOpenFor(700); // in
+  lightSleep(1200);
+  mouthOpenFor(800); // my
+  lightSleep(1100);
+  mouthOpenFor(2800); // Self-righteous suicide
+  lightSleep(1000);
+  mouthOpenFor(700); // I
+  lightSleep(1200);
+  mouthOpenFor(900); // cry
+  lightSleep(850);
+  mouthOpenFor(1900); // when angels deserve to
+  lightSleep(50);
+  headOut();
+  mouthOpenFor(3200); // DDDDIIIIIIEEEEE
+  headTailRest();
+  lightSleep(50);
+  flapTailFor(2100, 125);
+  lightSleep(50);
+  headOut();
+  mouthOpenFor(1800); // *roar*
+  headTailRest();
+  lightSleep(500);
 }
 
 // Lip-sync function, operating the motors in time to music. The music is already playing at
