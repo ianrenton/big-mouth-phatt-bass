@@ -27,7 +27,7 @@
 // Music player settings
 #define TRACK_NUMBER_FOR_SENSOR_MODE 1 // In sensor mode you don't get to select track, use this one
 #define MAX_TRACK_NUMBER 6
-#define VOLUME 30 // Up to 30
+#define VOLUME 10 // Up to 30 // @todo revert
 #define MP3_PLAYER_BAUD_RATE 9600
 
 
@@ -66,7 +66,7 @@ void lightSleep(int timeMs);
 
 
 // Variable defs
-int trackNumber = 1;
+int trackNumber = 3; // @todo revert
 bool sensorMode = false;
 double lastSensorLightLevel = 0;
 
@@ -299,7 +299,54 @@ void lipsyncAllAboutThatBass() {
 // this point so we just have to move motors accordingly. This version of the function is for:
 // Mr Scruff - Fish (track number 3)
 void lipsyncMrScruffFish() {
-  // @todo
+  lightSleep(300);
+  headOut();
+  mouthOpenFor(2400); // Now listen to me young fellow
+  lightSleep(300);
+  mouthOpenFor(2400); // What need is there for fish to sing
+  lightSleep(300);
+  mouthOpenFor(3000); // When I can roar and bellow?
+  headTailRest();
+  lightSleep(1000);
+  for (int i = 0; i < 4; i++) { // Fish x8
+    tailOut();
+    mouthOpenFor(340);
+    lightSleep(100);
+    headTailRest();
+    mouthOpenFor(340);
+    lightSleep(100);
+  }
+  mouthOpenFor(340); // Fish
+  lightSleep(100);
+  headOut();
+  lightSleep(100);
+  mouthOpenFor(1300); // Eating fish
+  headTailRest();
+  lightSleep(400);
+  for (int i = 0; i < 2; i++) { // *ununtelligible noises*
+    mouthOpenFor(700);
+    lightSleep(300);
+  }
+  lightSleep(1400);
+  for (int i = 0; i < 4; i++) { // Fish x8
+    tailOut();
+    mouthOpenFor(340);
+    lightSleep(100);
+    headTailRest();
+    mouthOpenFor(340);
+    lightSleep(100);
+  }
+  mouthOpenFor(340); // Fish
+  lightSleep(100);
+  headOut();
+  lightSleep(100);
+  mouthOpenFor(1300); // Eating fish
+  headTailRest();
+  lightSleep(3800);
+  mouthOpenFor(2600); // Fish are really (something??)
+  lightSleep(1800);
+  mouthOpenFor(2600); // Fish are really (something??)
+  lightSleep(2000);
 }
 
 // Lip-sync function, operating the motors in time to music. The music is already playing at
