@@ -64,6 +64,7 @@ void headOut();
 void tailOut();
 void headTailRest();
 void flapMouthFor(int runtime, int interval);
+void flapMouthAndTailTogetherFor(int runtime, int interval);
 void mouthOpenFor(int runtime);
 void mouthOpen();
 void mouthClose();
@@ -315,7 +316,7 @@ void lipsyncAllAboutThatBass() {
     lightSleep(150);
     headTailRest();
   }
-    lightSleep(500);
+  lightSleep(500);
 }
 
 // Lip-sync function, operating the motors in time to music. The music is already playing at
@@ -450,7 +451,47 @@ void lipsyncChopSuey() {
 // this point so we just have to move motors accordingly. This version of the function is for:
 // Nirvana - Smells Like Teen Spirit (track number 5)
 void lipsyncSmellsLikeTeenSpirit() {
-  // @todo
+  mouthOpenFor(500); // Hello
+  lightSleep(500);
+  mouthOpenFor(500); // Hello
+  headOut();
+  lightSleep(400);
+  flapMouthFor(1400, 175); // With the lights out
+  lightSleep(300);
+  flapMouthFor(1400, 175); // It's less dangerous
+  lightSleep(400);
+  headTailRest();
+  lightSleep(400);
+  flapMouthAndTailTogetherFor(1400, 175); // Here we are now
+  lightSleep(400);
+  flapMouthAndTailTogetherFor(1400, 175); // Entertain us
+  lightSleep(300);
+  headOut();
+  lightSleep(600);
+  flapMouthFor(1400, 175); // I feel stupid
+  lightSleep(600);
+  flapMouthFor(1400, 175); // and contagious
+  lightSleep(200);
+  headTailRest();
+  lightSleep(500);
+  flapMouthAndTailTogetherFor(1400, 175); // Here we are now
+  lightSleep(500);
+  flapMouthAndTailTogetherFor(1400, 175); // Entertain us
+  lightSleep(700);
+  flapMouthAndTailTogetherFor(1400, 175); // A mulatto
+  headOut();
+  lightSleep(700);
+  flapMouthFor(1400, 175); // An albino
+  headTailRest();
+  lightSleep(700);
+  flapMouthAndTailTogetherFor(1400, 175); // A mosquito
+  headOut();
+  lightSleep(700);
+  flapMouthFor(1400, 175); // My libido
+  headTailRest();
+  lightSleep(800);
+  mouthOpenFor(800); // Yeah
+  lightSleep(500);
 }
 
 // Lip-sync function, operating the motors in time to music. The music is already playing at
@@ -566,6 +607,22 @@ void flapMouthFor(int runtime, int interval) {
     mouthOpen();
     lightSleep(interval);
     mouthClose();
+    lightSleep(interval);
+  }
+}
+
+// Flap the fish's mouth and tail together for a defined time (in millis), opening and closing the mouth and bringing
+// the tail out/in at the defined interval (in millis).
+// runtime should be a multiple of interval * 2, otherwise the number of mouth movements will be rounded down.
+// Used to simulate singing or rapid speech.
+void flapMouthAndTailTogetherFor(int runtime, int interval) {
+  int runs = runtime / interval / 2.0;
+  for (int i = 0; i < runs; i++) {
+    mouthOpen();
+    tailOut();
+    lightSleep(interval);
+    mouthClose();
+    headTailRest();
     lightSleep(interval);
   }
 }
