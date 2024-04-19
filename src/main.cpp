@@ -1,12 +1,10 @@
 // Big Mouth Phatt Bass control code
 // by Ian Renton, 2024. CC Zero / Public Domain
 
-// Debug LED pin
-#define LED_PIN 2
-
 // Button and sensor pins
 #define BUTTON_PIN 4
 #define LDR_PIN 33
+#define LONG_PRESS_DURATION_MILLIS 500 // How long do you hold the button down to count as a long press?
 
 // Motor control pins
 #define HEADTAIL_MOTOR_PIN_1 12
@@ -26,8 +24,12 @@
 
 // Music player settings
 #define TRACK_NUMBER_FOR_SENSOR_MODE 1 // In sensor mode you don't get to select track, use this one
-#define MAX_TRACK_NUMBER 6
-#define VOLUME 30 // Up to 30
+#define MAX_TRACK_NUMBER 7
+#define MUSIC_VOLUME 30 // Up to 30
+#define ANNOUNCER_VOLUME 10 // Up to 30
+#define MUSIC_FOLDER 1 // Corresponds to folder "01" on SD card
+#define ANNOUNCER_FOLDER 2 // Corresponds to folder "02" on SD card
+#define SENSOR_MODE_ANNOUNCER_TRACK_NUMBER 99 // Corresponds to file "02/099.mp3" on SD card
 #define MP3_PLAYER_BAUD_RATE 9600
 
 
@@ -35,18 +37,20 @@
 #include <Arduino.h>
 
 // Function defs
-void flashLED(int times);
 void indicateReady();
 boolean isButtonPushed();
 double getLightLevel();
-void trigger();
+void announceTrackName(int trackNumber);
+void announceSensorMode();
+void trigger(int trackNumber);
 void lipsyncPhattBass();
 void lipsyncAllAboutThatBass();
 void lipsyncMrScruffFish();
 void lipsyncChopSuey();
 void lipsyncSmellsLikeTeenSpirit();
 void lipsyncKillingInTheName();
-void playTrack(int tracknum);
+void lipsyncEnterSandman();
+void playTrack(int foldernum, int tracknum);
 void flapHeadFor(int runtime, int interval);
 void flapTailFor(int runtime, int interval);
 void flapHead(int interval);
@@ -73,9 +77,6 @@ double lastSensorLightLevel = 0;
 
 // Setup and run the program
 void setup() {
-  // Set up debug LED pin
-  pinMode(LED_PIN, OUTPUT);
-
   // Set up button and LDR pins
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(LDR_PIN, INPUT_PULLUP);
@@ -100,15 +101,23 @@ void setup() {
   Serial2.begin(MP3_PLAYER_BAUD_RATE);
   while (!Serial2);
 
+  // Reset anything going on on the motor & MP3 boards
+  stop();
+
   // Check startup mode. If the button is held down at startup time, we go into
   // "sensor mode" to use the LDR to trigger the fish, otherwise we go into
   // normal mode where a button press triggers it.
   if (isButtonPushed()) {
     // Button held in on startup, so going into sensor mode.
-    // Wait for button to be unpushed, then the indicateReady() sequence will give time for the user to move away
+    // Wait for button to be unpushed, then the mode/track announce sequence will give time for the user to move away
     sensorMode = true;
     trackNumber = TRACK_NUMBER_FOR_SENSOR_MODE;
-    while (isButtonPushed());
+
+    announceSensorMode();
+    while (isButtonPushed()) {
+      lightSleep(10);
+    }
+    lightSleep(2000);
 
     // Record the current light level, so we don't trigger immediately
     lastSensorLightLevel = getLightLevel();
@@ -117,7 +126,8 @@ void setup() {
     // Normal mode, nothing else to do here
   }
 
-  indicateReady();
+  announceTrackName(trackNumber);
+  lightSleep(1000);
 }
 
 // Main program loop
@@ -127,43 +137,29 @@ void loop() {
   if (sensorMode) {
     double lightLevel = getLightLevel();
     if (lightLevel < lastSensorLightLevel - 0.04 || lightLevel > lastSensorLightLevel + 0.04) {
-      trigger();
+      trigger(trackNumber);
     }
     lastSensorLightLevel = lightLevel;
     lightSleep(200);
 
   } else if (isButtonPushed()) {
-    // Not in sensor mode, and the button was pushed. If it was pushed for less than a second,
-    // this is the sign to trigger and play the music. If it was pushed for more than a second,
+    // Not in sensor mode, and the button was pushed. If it was pushed for less than half a second,
+    // this is the sign to trigger and play the music. If it was pushed for more than half a second,
     // this is the sign to switch tracks.
-    lightSleep(1000);
+    lightSleep(LONG_PRESS_DURATION_MILLIS);
     if (!isButtonPushed()) {
-      trigger();
+      trigger(trackNumber);
     } else {
       while (isButtonPushed());
       trackNumber++;
       if (trackNumber > MAX_TRACK_NUMBER) {
         trackNumber = 1;
       }
-      flashLED(trackNumber);
+      // Announce the name of the new track that will play
+      announceTrackName(trackNumber);
     }
   }
   lightSleep(50);
-}
-
-// Indicates the program is ready by flashing the LED. 10 flashes for sensor mode, or in normal mode, flash to indicate the track number that will play.
-void indicateReady() {
-  flashLED(sensorMode ? 10 : trackNumber);
-}
-
-// Flash the LED high for 300ms then low for 300ms, repeated as many times as requested
-void flashLED(int times) {
-  for (int i = 0; i < times; i++) {
-    digitalWrite(LED_PIN, HIGH);
-    lightSleep(300);
-    digitalWrite(LED_PIN, LOW);
-    lightSleep(300);
-  }
 }
 
 // Return true if button is pushed
@@ -177,12 +173,23 @@ double getLightLevel() {
   return constrain(1 - measuredLevel / 2500.0, 0.0, 1.0);
 }
 
-// Trigger a music playing & lip syncing action
-void trigger() {
+// Play an "announcer" MP3 to say which song is playing
+void announceTrackName(int tracknum) {
+  changeVolume(ANNOUNCER_VOLUME);
+  playTrack(ANNOUNCER_FOLDER, tracknum);
+}
 
+// Play an "announcer" MP3 to say we are in sensor mode
+void announceSensorMode() {
+  changeVolume(ANNOUNCER_VOLUME);
+  playTrack(ANNOUNCER_FOLDER, SENSOR_MODE_ANNOUNCER_TRACK_NUMBER);
+}
+
+// Trigger a music playing & lip syncing action
+void trigger(int trackNumber) {
   // Start playing MP3
-  changeVolume(VOLUME);
-  playTrack(trackNumber);
+  changeVolume(MUSIC_VOLUME);
+  playTrack(MUSIC_FOLDER, trackNumber);
 
   // Lip-sync!
   switch(trackNumber) {
@@ -203,6 +210,9 @@ void trigger() {
       break;
     case 6:
       lipsyncKillingInTheName();
+      break;
+    case 7:
+      lipsyncEnterSandman();
       break;
   }
 
@@ -437,9 +447,20 @@ void lipsyncKillingInTheName() {
   // @todo
 }
 
-// Play a specific track number
-void playTrack(int tracknum) {
-  sendCommandToMP3Player(0x03, tracknum);
+// Lip-sync function, operating the motors in time to music. The music is already playing at
+// this point so we just have to move motors accordingly. This version of the function is for:
+// Metallica - Enter Sandman (track number 7)
+void lipsyncEnterSandman() {
+  // @todo
+}
+
+// Play a specific track number from a specific folder.
+void playTrack(int foldernum, int tracknum) {
+  // Disable repeat
+  sendCommandToMP3Player(0x11, 0);
+  // Play track
+  int foldertrack = (foldernum << 8) | tracknum;
+  sendCommandToMP3Player(0x0f, foldertrack);
 }
 
 // Flap the head in and out for a defined time (in millis), moving it at the defined interval (in millis).
@@ -553,6 +574,8 @@ void changeVolume(int thevolume) {
 }
 
 // Send a command to the MP3-TF-16P. Some commands support one or two bytes of data
+// Based on docs here: https://picaxe.com/docs/spe033.pdf
+// Todo: replace with https://registry.platformio.org/libraries/makuna/DFPlayer%20Mini%20Mp3%20by%20Makuna/
 void sendCommandToMP3Player(byte command, int dataBytes) {
   byte commandData[10];
   byte q;
