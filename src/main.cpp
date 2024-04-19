@@ -526,7 +526,44 @@ void lipsyncKillingInTheName() {
 // this point so we just have to move motors accordingly. This version of the function is for:
 // Metallica - Enter Sandman (track number 7)
 void lipsyncEnterSandman() {
-  // @todo
+  lightSleep(400);
+  flapMouthFor(3000, 300); // Hush little baby, don't say a word
+  lightSleep(900);
+  flapMouthFor(3000, 300); // And never mind that noise you heard
+  lightSleep(1100);
+  flapMouthAndTailTogetherFor(3000, 300); // It's just the beast under your bed
+  lightSleep(900);
+  flapMouthAndTailTogetherFor(3000, 300); // In your closet, in your head
+  headOut();
+  lightSleep(1000);
+  flapMouthFor(1200, 300); // Exit
+  mouthOpenFor(1000); // light
+  lightSleep(1700);
+  flapMouthFor(1200, 300); // Enter
+  mouthOpenFor(1000); // night
+  lightSleep(1100);
+  mouthOpenFor(1000); // Grain
+  lightSleep(200);
+  mouthOpenFor(200); // of
+  lightSleep(200);
+  mouthOpenFor(2000); // sand
+  lightSleep(500);
+  flapMouthFor(1200, 300); // Exit
+  mouthOpenFor(1000); // light
+  lightSleep(1600);
+  flapMouthFor(1200, 300); // Enter
+  mouthOpenFor(1000); // night
+  lightSleep(1500);
+  mouthOpenFor(1000); // Take
+  lightSleep(200);
+  mouthOpenFor(200); // my
+  lightSleep(200);
+  mouthOpenFor(2000); // hand
+  headTailRest();
+  lightSleep(200);
+  flapMouthFor(1600, 200); // We're off to never never
+  mouthOpenFor(1500); // laaaaand
+  lightSleep(1000);
 }
 
 // Play a specific track number from a specific folder.
