@@ -8,9 +8,9 @@ This project uses the Platform.io environment, and is designed to run on a DOIT 
 
 ## Operation
 
-To use "normal mode", power on the Billy Bass without the front button held down. From that point, a quick button press starts the selected song. A long button press (>1 sec) cues up the next track. The ESP32 Devkit LED blinks to show the track number.
+To use "normal mode", power on the Billy Bass without the front button held down. From that point, a quick button press starts the selected song. A long button press (>500ms) cues up the next track. The announcer voice MP3s will tell you which track will play.
 
-To use "sensor mode", power on the Billy Bass with the front button held down. The LED will blink 10 times, giving you time to remove your hand. From that point onwards, the LDR sensor will be used to trigger playing a song.
+To use "sensor mode", power on the Billy Bass with the front button held down. The announcer voice will tell you that Sensor Mode is enabled, giving you time to remove your hand. From that point onwards, the LDR sensor will be used to trigger playing a song.
 
 ## Songs
 
