@@ -1,6 +1,11 @@
 // Big Mouth Phatt Bass control code
 // by Ian Renton, 2024. CC Zero / Public Domain
 
+// Debug mode - for lip sync testing - reduces volume to avoid annoying the family and autoplays chosen track
+#define DEBUG false
+#define DEBUG_VOLUME 10
+#define DEBUG_AUTOPLAY_TRACK 1
+
 // Button and sensor pins
 #define BUTTON_PIN 4
 #define LDR_PIN 33
@@ -104,6 +109,12 @@ void setup() {
   // Reset anything going on on the motor & MP3 boards
   stop();
 
+  // If we are in debug mode to speed up lip-sync testing, autoplay the chosen track.
+  if (DEBUG) {
+    trigger(DEBUG_AUTOPLAY_TRACK);
+    return;
+  }
+
   // Check startup mode. If the button is held down at startup time, we go into
   // "sensor mode" to use the LDR to trigger the fish, otherwise we go into
   // normal mode where a button press triggers it.
@@ -175,20 +186,22 @@ double getLightLevel() {
 
 // Play an "announcer" MP3 to say which song is playing
 void announceTrackName(int tracknum) {
-  changeVolume(ANNOUNCER_VOLUME);
+  changeVolume(DEBUG ? DEBUG_VOLUME : ANNOUNCER_VOLUME);
   playTrack(ANNOUNCER_FOLDER, tracknum);
 }
 
 // Play an "announcer" MP3 to say we are in sensor mode
 void announceSensorMode() {
-  changeVolume(ANNOUNCER_VOLUME);
+  changeVolume(DEBUG ? DEBUG_VOLUME : ANNOUNCER_VOLUME);
   playTrack(ANNOUNCER_FOLDER, SENSOR_MODE_ANNOUNCER_TRACK_NUMBER);
 }
 
 // Trigger a music playing & lip syncing action
 void trigger(int trackNumber) {
+  // Set volume. A lower volume is set in debug mode.
+  changeVolume(DEBUG ? DEBUG_VOLUME : MUSIC_VOLUME);
+
   // Start playing MP3
-  changeVolume(MUSIC_VOLUME);
   playTrack(MUSIC_FOLDER, trackNumber);
 
   // Lip-sync!
@@ -233,7 +246,7 @@ void lipsyncPhattBass() {
   lightSleep(300);
   mouthOpenFor(300); // phatt
   lightSleep(200);
-  flapMouthFor(1750, 250); // bass... bass... bass... bass...
+  flapMouthFor(3500, 250); // bass... bass... bass... bass...
   tailOut();
   mouthOpenFor(300); // bass...
   headTailRest();
@@ -242,15 +255,15 @@ void lipsyncPhattBass() {
   mouthOpenFor(300); // bass...
   headTailRest();
   lightSleep(300);
-  flapTailFor(5400, 200); // *early 2000s techno noises*
+  flapTailFor(10800, 200); // *early 2000s techno noises*
   headOut();
   lightSleep(200);
   mouthOpenFor(600); // phatt
   lightSleep(600);
   mouthOpenFor(600); // bass
   for (int i = 0; i < 10; i++) { // rest of music
-    flapTailFor(400, 200);
-    flapHeadFor(400, 200);
+    flapTailFor(800, 200);
+    flapHeadFor(800, 200);
   }
 }
 
@@ -261,14 +274,14 @@ void lipsyncAllAboutThatBass() {
   lightSleep(300);
   headOut();
   lightSleep(1000);
-  flapMouthFor(2250, 250); // Because ou know I'm all about that bass, 'bout that bass, no treble
+  flapMouthFor(4500, 250); // Because you know I'm all about that bass, 'bout that bass, no treble
   headTailRest();
-  flapMouthFor(1750, 250); // I'm all about that bass, 'bout that bass, no treble
+  flapMouthFor(3500, 250); // I'm all about that bass, 'bout that bass, no treble
   headOut();
-  flapMouthFor(1750, 250); // I'm all about that bass, 'bout that bass, no treble
+  flapMouthFor(3500, 250); // I'm all about that bass, 'bout that bass, no treble
   headTailRest();
-  flapMouthFor(1250, 250); // I'm all about that bass, 'bout that
-  flapMouthFor(500, 125); // bass bass bass bass
+  flapMouthFor(2500, 250); // I'm all about that bass, 'bout that
+  flapMouthFor(1000, 125); // bass bass bass bass
   lightSleep(500);
   for (int i = 0; i < 12; i++) { // Yeah, it's pretty clear, I ain't no size two, but I can shake it, shake it, like I'm supposed to do
     tailOut();
@@ -425,7 +438,7 @@ void lipsyncChopSuey() {
   mouthOpenFor(3200); // DDDDIIIIIIEEEEE
   headTailRest();
   lightSleep(50);
-  flapTailFor(2100, 125);
+  flapTailFor(4200, 125);
   lightSleep(50);
   headOut();
   mouthOpenFor(1800); // *roar*
@@ -444,7 +457,28 @@ void lipsyncSmellsLikeTeenSpirit() {
 // this point so we just have to move motors accordingly. This version of the function is for:
 // Rage Against the Machine - Killing in the Name (track number 6)
 void lipsyncKillingInTheName() {
-  // @todo
+  headOut();
+  lightSleep(250);
+  for (int i = 0; i < 8; i++) {
+    flapMouthFor(2250, 125); // Fuck you I won't do what you tell me
+    lightSleep(400);
+  }
+  flapMouthFor(2250, 125); // Fuck you I won't do what you tell me
+  headTailRest();
+  lightSleep(2000);
+  headOut();
+  lightSleep(250);
+  mouthOpenFor(300); // Mother
+  lightSleep(200);
+  mouthOpenFor(1000); // Fuckeeerrrrr
+  headTailRest();
+  lightSleep(1200);
+  mouthOpenFor(300); // Ugh
+  flapTailFor(5500, 250);
+  flapTailFor(3000, 125);
+  flapTailFor(500, 250);
+  flapHeadFor(500, 250);
+  flapTailFor(500, 250);
 }
 
 // Lip-sync function, operating the motors in time to music. The music is already playing at
@@ -467,7 +501,7 @@ void playTrack(int foldernum, int tracknum) {
 // runtime should be a multiple of interval * 2, otherwise the number of mouth movements will be rounded down.
 // Used to bop to music
 void flapHeadFor(int runtime, int interval) {
-  int runs = runtime / interval;
+  int runs = runtime / interval / 2.0;
   for (int i = 0; i < runs; i++) {
     headOut();
     lightSleep(interval);
@@ -480,7 +514,7 @@ void flapHeadFor(int runtime, int interval) {
 // runtime should be a multiple of interval * 2, otherwise the number of mouth movements will be rounded down.
 // Used to bop to music
 void flapTailFor(int runtime, int interval) {
-  int runs = runtime / interval;
+  int runs = runtime / interval / 2.0;
   for (int i = 0; i < runs; i++) {
     tailOut();
     lightSleep(interval);
@@ -527,7 +561,7 @@ void headTailRest() {
 // runtime should be a multiple of interval * 2, otherwise the number of mouth movements will be rounded down.
 // Used to simulate singing or rapid speech.
 void flapMouthFor(int runtime, int interval) {
-  int runs = runtime / interval;
+  int runs = runtime / interval / 2.0;
   for (int i = 0; i < runs; i++) {
     mouthOpen();
     lightSleep(interval);
