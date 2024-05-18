@@ -23,5 +23,7 @@ The following songs are supported. I *think* the MP3s are "fair use" to share fo
 5. Nirvana - Smells Like Teen Spirit
 6. Rage Against the Machine - Killing in the Name
 7. Metallica - Enter Sandman
+8. Nine Inch Nails - Closer
+9. "I am Just a Fish" (from https://www.youtube.com/watch?v=XeY0eOEEURM, originally "Freaks" by Surf Curse)
 
 You can download the contents of the SD card used in the project [here](https://ianrenton.com/projects/big-mouth-phatt-bass/sdcard.zip). This contains the song sections plus announcer voices.

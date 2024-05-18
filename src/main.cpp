@@ -29,7 +29,7 @@
 
 // Music player settings
 #define TRACK_NUMBER_FOR_SENSOR_MODE 1 // In sensor mode you don't get to select track, use this one
-#define MAX_TRACK_NUMBER 7
+#define MAX_TRACK_NUMBER 9
 #define MUSIC_VOLUME 30 // Up to 30
 #define ANNOUNCER_VOLUME 10 // Up to 30
 #define MUSIC_FOLDER 1 // Corresponds to folder "01" on SD card
@@ -55,6 +55,8 @@ void lipsyncChopSuey();
 void lipsyncSmellsLikeTeenSpirit();
 void lipsyncKillingInTheName();
 void lipsyncEnterSandman();
+void lipsyncCloser();
+void lipsyncIAmJustAFish();
 void playTrack(int foldernum, int tracknum);
 void flapHeadFor(int runtime, int interval);
 void flapTailFor(int runtime, int interval);
@@ -227,6 +229,12 @@ void trigger(int trackNumber) {
       break;
     case 7:
       lipsyncEnterSandman();
+      break;
+    case 8:
+      lipsyncCloser();
+      break;
+    case 9:
+      lipsyncIAmJustAFish();
       break;
   }
 
@@ -564,6 +572,101 @@ void lipsyncEnterSandman() {
   flapMouthFor(1600, 200); // We're off to never never
   mouthOpenFor(1500); // laaaaand
   lightSleep(1000);
+}
+
+// Lip-sync function, operating the motors in time to music. The music is already playing at
+// this point so we just have to move motors accordingly. This version of the function is for:
+// NIN - Closer (track number 8)
+void lipsyncCloser() {
+  headOut();
+  lightSleep(200);
+  flapMouthFor(3000, 165); // I wanna fuck you like an animal
+  headTailRest();
+  lightSleep(200);
+  flapTailFor(1600, 200); // (instrumental)
+  headOut();
+  lightSleep(200);
+  flapMouthFor(2700, 165); // I wanna feel you from the
+  mouthOpenFor(500); // in
+  lightSleep(100);
+  mouthOpenFor(800); // side
+  headTailRest();
+  lightSleep(200);
+  flapTailFor(1200, 200); // (instrumental)
+  headOut();
+  lightSleep(200);
+  flapMouthFor(3000, 165); // I wanna fuck you like an animal
+  headTailRest();
+  lightSleep(200);
+  flapTailFor(1600, 200); // (instrumental)
+  lightSleep(400);
+  headOut();
+  lightSleep(200);
+  flapMouthFor(1800, 150); // My whole existence is
+  mouthOpenFor(800); // flawed
+  headTailRest();
+  lightSleep(200);
+  flapTailFor(2000, 200); // (instrumental)
+  lightSleep(400);
+  headOut();
+  lightSleep(200);
+  flapMouthFor(1800, 150); // You get me closer to
+  mouthOpenFor(1000); // God
+  headTailRest();
+  lightSleep(200);
+  flapTailFor(6300, 350); // (instrumental)
+}
+
+// Lip-sync function, operating the motors in time to music. The music is already playing at
+// this point so we just have to move motors accordingly. This version of the function is for:
+// "I am Just a Fish" (track number 9)
+void lipsyncIAmJustAFish() {
+  headOut();
+  lightSleep(200);
+  mouthOpenFor(700); // Don't
+  lightSleep(500);
+  mouthOpenFor(700); // Cry
+  lightSleep(700);
+  flapMouthFor(1200, 150); // I am just a
+  mouthOpenFor(500); // Fish
+  headTailRest();
+  lightSleep(200);
+  for (int i = 0; i < 2; i++) { // (instrumental)
+    tailOut();
+    lightSleep(500);
+    headTailRest();
+    lightSleep(700);
+  }
+  tailOut();
+  lightSleep(500);
+  headTailRest();
+  lightSleep(100);
+  for (int i = 0; i < 3; i++) {
+    headOut();
+    lightSleep(400);
+    flapMouthFor(1200, 150); // I am just a
+    mouthOpenFor(500); // Fish
+    headTailRest();
+    lightSleep(200);
+    for (int i = 0; i < 2; i++) { // (instrumental)
+      tailOut();
+      lightSleep(500);
+      headTailRest();
+      lightSleep(700);
+    }
+    tailOut();
+    lightSleep(500);
+    headTailRest();
+    lightSleep(100);
+  }
+  // Outro
+  flapHeadFor(2400, 600);
+  for (int i = 0; i < 5; i++) {
+    tailOut();
+    lightSleep(500);
+    headTailRest();
+    lightSleep(700);
+  }
 }
 
 // Play a specific track number from a specific folder.
