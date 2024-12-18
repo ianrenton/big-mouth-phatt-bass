@@ -29,7 +29,7 @@
 
 // Music player settings
 #define TRACK_NUMBER_FOR_SENSOR_MODE 1 // In sensor mode you don't get to select track, use this one
-#define MAX_TRACK_NUMBER 9
+#define MAX_TRACK_NUMBER 10
 #define MUSIC_VOLUME 30 // Up to 30
 #define ANNOUNCER_VOLUME 10 // Up to 30
 #define MUSIC_FOLDER 1 // Corresponds to folder "01" on SD card
@@ -57,6 +57,7 @@ void lipsyncKillingInTheName();
 void lipsyncEnterSandman();
 void lipsyncCloser();
 void lipsyncIAmJustAFish();
+void lipsyncBasketCase();
 void playTrack(int foldernum, int tracknum);
 void flapHeadFor(int runtime, int interval);
 void flapTailFor(int runtime, int interval);
@@ -235,6 +236,9 @@ void trigger(int trackNumber) {
       break;
     case 9:
       lipsyncIAmJustAFish();
+      break;
+    case 10:
+      lipsyncBasketCase();
       break;
   }
 
@@ -666,6 +670,103 @@ void lipsyncIAmJustAFish() {
     lightSleep(500);
     headTailRest();
     lightSleep(700);
+  }
+}
+
+// Lip-sync function, operating the motors in time to music. The music is already playing at
+// this point so we just have to move motors accordingly. This version of the function is for:
+// "Basket Case" (track number 10)
+void lipsyncBasketCase() {
+  headOut();
+  lightSleep(400);
+  mouthOpenFor(300); // Do
+  lightSleep(100);
+  flapMouthFor(900, 150); // you have the
+  mouthOpenFor(400); // time
+  flapTailFor(600, 100);
+  headOut();
+  lightSleep(400);
+  mouthOpenFor(300); // To
+  lightSleep(200);
+  flapMouthFor(900, 150); // listen to me
+  mouthOpenFor(400); // whine
+  flapTailFor(600, 100);
+
+  headOut();
+  lightSleep(400);
+  flapMouthFor(2560, 160); // About nothing and everything
+  mouthOpenFor(600); // all at
+  lightSleep(200);
+  mouthOpenFor(200); // once
+
+  flapTailFor(1800, 100);
+
+  headOut();
+  lightSleep(400);
+  mouthOpenFor(300); // I
+  lightSleep(100);
+  flapMouthFor(900, 150); // am one of those
+  mouthOpenFor(400); // those
+  flapTailFor(600, 100);
+  headOut();
+  lightSleep(400);
+  mouthOpenFor(300); // Me-
+  lightSleep(200);
+  flapMouthFor(900, 150); // lodromatic
+  mouthOpenFor(400); // fools
+  flapTailFor(600, 100);
+  
+  headOut();
+  lightSleep(400);
+  flapMouthFor(2560, 160); // Neurotic to the bone, no
+  mouthOpenFor(600); // doubt about
+  lightSleep(100);
+  mouthOpenFor(100); // it
+
+  flapTailFor(3000, 100);
+
+  headOut();
+  lightSleep(400);
+  flapMouthFor(1500, 120); // Sometimes I give myself
+  mouthOpenFor(600); // the
+  lightSleep(200);
+  mouthOpenFor(500); // creeps
+
+  flapTailFor(2500, 100);
+
+  headOut();
+  lightSleep(400);
+  flapMouthFor(1740, 120); // Sometimes my mind plays tricks
+  mouthOpenFor(600); // on
+  lightSleep(200);
+  mouthOpenFor(500); // me
+
+  flapTailFor(1600, 100);
+
+  headOut();
+  lightSleep(400);
+  flapMouthFor(1800, 150); // At all keeps adding up
+
+  flapTailFor(600, 100);
+
+  headOut();
+  lightSleep(300);
+  flapMouthFor(1500, 150); // I think I'm cracking
+  mouthOpenFor(800); // up
+  lightSleep(500);
+  mouthOpenFor(200); // Am
+  lightSleep(200);
+  flapMouthFor(1500, 150); // I just paranoid
+  flapMouthFor(600, 100); // Or am I just
+  mouthOpenFor(800); // stoned
+  headTailRest();
+  lightSleep(300);
+
+  for (int i = 0; i < 3; i++) {
+    tailOut();
+    lightSleep(800);
+    headTailRest();
+    lightSleep(800);
   }
 }
 
