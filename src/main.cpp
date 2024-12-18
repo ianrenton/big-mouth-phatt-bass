@@ -30,7 +30,7 @@
 // Music player settings
 #define TRACK_NUMBER_FOR_SENSOR_MODE 1 // In sensor mode you don't get to select track, use this one
 #define MAX_TRACK_NUMBER 10
-#define MUSIC_VOLUME 30 // Up to 30
+#define MUSIC_VOLUME 20 // Up to 30
 #define ANNOUNCER_VOLUME 10 // Up to 30
 #define MUSIC_FOLDER 1 // Corresponds to folder "01" on SD card
 #define ANNOUNCER_FOLDER 2 // Corresponds to folder "02" on SD card
